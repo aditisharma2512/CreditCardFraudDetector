@@ -72,4 +72,6 @@ This is version 1.0.
 
 ## Authors
 
-* **Aditi Sharma** - *Github Profile* - [AditiSharma](https://github.com/aditisharma2512)
+* **Aditi Sharma**
+
+[LinkedIn](https://www.linkedin.com/in/aditisharma25/) | [Email](mailto:aditisharma2593@gmail.com)
