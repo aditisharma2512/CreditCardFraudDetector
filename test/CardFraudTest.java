@@ -78,7 +78,7 @@ public class CardFraudTest {
     }
     
     /**
-     * test for a number of transactions with 3 fraud cards 
+     * test for a number of transactions with 3 fraud cards and threshold amount : 150
      */
     @Test
     public void testFraudCase1() throws DateTimeParseException, NumberFormatException, IOException {

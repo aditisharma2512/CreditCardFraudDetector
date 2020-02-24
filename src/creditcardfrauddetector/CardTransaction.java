@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 /**
  *
  * @author aditisharma
+ * 
+ * This class represents a single transaction in file
  */
 public class CardTransaction {
 

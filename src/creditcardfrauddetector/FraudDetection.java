@@ -23,13 +23,24 @@ import java.util.HashSet;
 /**
  *
  * @author aditisharma
+ * 
+ * This class implements credit card fraud detection
  */
 public class FraudDetection {
     
-    public final static DateTimeFormatter CARD_TRANSACTION_DATE_TIME_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    // datetime format for card transactions
+    public final static DateTimeFormatter TRANSACTION_DATETIME_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    
+    // map that holds card and sum of amounts in any 24 hour sliding window
     protected Map<String, Double> cardMap = new HashMap<String, Double>();
+    
+    // set holds detected fraud credit card hashed numbers
     protected Set<String> fraudCardNumbers = new HashSet<String>();
     
+    /**
+     * This methods will read & parse sample file, 
+     * and returns list of card transactions in file
+     */
     public List<CardTransaction> readTransactionsFromFile(String inputPath) throws IOException, DateTimeParseException, NumberFormatException 
     {
         List<String> lines = Collections.emptyList();
@@ -42,14 +53,18 @@ public class FraudDetection {
         List<CardTransaction> transactionList = new ArrayList<CardTransaction>();
         
         lines.forEach(line -> {
-            CardTransaction item = parseSingleTransaction(line);
+            CardTransaction item = parseTransactionSequence(line);
             transactionList.add(item);
         });
 
        return transactionList; 
     }
     
-    public CardTransaction parseSingleTransaction(String line) {
+    /**
+     * This method will parse a single transaction in the file
+     * and returns an object of CardTransaction
+     */ 
+    public CardTransaction parseTransactionSequence(String line) {
 		String[] items = line.replaceAll("\\s+", "").split(",");
 		String cardNumber = items[0];
 		LocalDateTime transactionDate = parseStringDateTime(items[1]);
@@ -58,12 +73,14 @@ public class FraudDetection {
 		return new CardTransaction(cardNumber,transactionDate, amount);
 	}
     
+    // This method will parse string datetime into LocaldateTime 
     public static LocalDateTime parseStringDateTime(String dateString) {
 
-        final LocalDateTime date = LocalDateTime.parse(dateString, CARD_TRANSACTION_DATE_TIME_FORMAT);
+        final LocalDateTime date = LocalDateTime.parse(dateString, TRANSACTION_DATETIME_FORMAT);
         return date;
 	}
     
+    // This method will detect fraud for a card in 24 hour sliding window
     public Set<String> detectFraud(List<CardTransaction> transactionList, double thresholdAmount)
     {
         int i = 0;
@@ -73,9 +90,7 @@ public class FraudDetection {
         {
             LocalDateTime start = cardTransaction.getTimestamp();
             LocalDateTime end = cardTransaction.getTimestamp().plusHours(24);
-            
-            
-            
+             
             flag = checkFraudInSlidingWindow(transactionList.subList(i, l), thresholdAmount, start, end, cardTransaction);
             
             if(flag)
@@ -87,6 +102,13 @@ public class FraudDetection {
         return fraudCardNumbers;
     }
     
+    
+    /**
+     * This method will accept sublist of transaction i.e. excluding previous processed credit card transaction(s) to current transaction in the file,
+     * threshold amount, start and end datetime of 24 hour sliding window for current transaction,
+     * current transaction
+     * and returns boolean value of fraud detection
+     */ 
     public boolean checkFraudInSlidingWindow(List<CardTransaction> transactionSubList, double thresholdAmount, LocalDateTime start, LocalDateTime end, CardTransaction card)
     {
         cardMap.clear();
