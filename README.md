@@ -26,6 +26,7 @@ The following are the system requirements prior to the installation of the proje
 
 1. A PC/Mac/Linux based system with Git installed and configured
 2. Java Development Kit installed
+3. [JUnit 4.0](https://github.com/junit-team/junit4/wiki/Download-and-Install) jar file installed
 
 ### Installing
 
@@ -45,6 +46,18 @@ cd CreditCardFraudDetector/src/creditcardfrauddetector
 5. Execute the compiled file
 
 ## Running the tests
+
+1. Compile the test cases
+
+```
+javac -d /absolute/path/for/compiled/classes -cp /absolute/path/to/junit-4.13.jar /absolute/path/to/TestClassName.java
+```
+
+2. Run the test cases
+
+```
+java -cp /absolute/path/for/compiled/classes:/absolute/path/to/junit-4.13.jar:/absolute/path/to/hamcrest-core-1.3.jar org.junit.runner.JUnitCore CreditCardFraudDetector.CardFraudTest.java
+```
 
 
 ## Built With
