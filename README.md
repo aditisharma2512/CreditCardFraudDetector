@@ -18,8 +18,6 @@ over a 24 hour sliding window period exceeds the price threshold.
 
 These instructions will get you a copy of the project up and running on your local machine for testing purposes. See deployment for notes on how to deploy the project on a live system. 
 
-**Please note: This project is exclusively created for Tanya Hodza and associates. Unauthorised copying is prohibited**
-
 ### Prerequisites
 
 The following are the system requirements prior to the installation of the project.
